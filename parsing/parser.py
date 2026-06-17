@@ -80,9 +80,4 @@ def parse_by_model(model_number: int):
         print(f"Ошибка сети при парсинге: {e}")
         return []
 
-#Временная заглушка
-def parse_yandex_market(model_number: int):
-    return {
-        "price": 70000,
-        "link": "https://yandex.ru"
-    }
+
