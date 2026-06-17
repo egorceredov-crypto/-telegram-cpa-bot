@@ -1,14 +1,12 @@
 import sys
 import os
 
-# Принудительно задаем корень проекта для импорта папок
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import asyncio
 from aiogram import Bot, Dispatcher
 from dotenv import find_dotenv, load_dotenv
 
-# Импортируем только роутер с кнопками из папки handlers
 from handlers.iphones import iphones_router
 
 load_dotenv(find_dotenv())
