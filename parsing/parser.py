@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 
 
 def parse_by_model(model_number: int):
-    # Используем точную ссылку на общий каталог, где лежат все телефоны
     url = "https://msk.stores-apple.com/catalog/iphones/"
 
     print(f"\n---- Анализирую код страницы для iPhone {model_number} ----")
@@ -28,18 +27,13 @@ def parse_by_model(model_number: int):
                 link_element = font.find("a", class_="dark_link")
                 if link_element and link_element.has_attr("href"):
                     name = link_element.text.strip()
-
-                    # СТРОГИЙ ФИЛЬТР: Если мы ищем, например, 13-й айфон, а в названии товара нет строки "13" — пропускаем!
-                    # Это уберет 15 и 16 модели из выдачи для iPhone 13.
                     if f" {model_number}" not in name and f" {model_number}e" not in name:
                         continue
 
-                    # ПРАВИЛЬНАЯ СБОРКА ССЫЛКИ (Убирает баг 404 со скриншота)
                     href = link_element["href"]
                     if href.startswith("http"):
                         link = href
                     else:
-                        # Если ссылка начинается со слэша, склеиваем аккуратно
                         if href.startswith("/"):
                             link = "https://msk.stores-apple.com" + href
                         else:
@@ -71,7 +65,6 @@ def parse_by_model(model_number: int):
             except Exception as e:
                 print(f"Ошибка в цикле парсера: {e}")
 
-        # Сортируем от самых дешевых к дорогим
         parsed_data.sort(key=lambda x: x['price'])
         print(f"Успешно! Найдено строго моделей iPhone {model_number}: {len(parsed_data)}")
         return parsed_data
